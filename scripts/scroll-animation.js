@@ -25,4 +25,4 @@ function setAnimationProgress() {
 
 	var frames = anim.totalFrames;
 	bodymovin.goToAndStop(scrollPercent * frames, true);
-}
+};
