@@ -4,7 +4,7 @@ var animData = {
 	loop: false,
 	prerender: true,
 	autoplay: false,
-	path: 'https://raw.githubusercontent.com/twhitt14/lottie/master/scroll-animation-simple.json'
+	path: 'https://raw.githubusercontent.com/twhitt14/BodyMovin/master/animations/scroll-animation-simple.json'
 };
 
 var anim = bodymovin.loadAnimation(animData);
