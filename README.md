@@ -1,3 +1,3 @@
-# lottie
+# BodyMovin
 
-Lottie Animation Files
+BodyMovin scripts and animation files :)
