@@ -35,7 +35,7 @@
 		if (window.scrollY == 0) {
 			// console.log("at top of page - locking page scrolling");
 			document.body.classList.add('lock-scrolling');
-			anim.playSegments([0, 71], true);
+			anim.playSegments([0, stopFrame], true);
 
 			// add listener to enable scrolling once animation is done
 		} else {
