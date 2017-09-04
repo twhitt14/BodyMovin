@@ -1,0 +1,67 @@
+<style>
+	.lock-scrolling {
+		height: 100%;
+		overflow: hidden;
+	}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/4.6.11/bodymovin.js" data-skip="true"></script>
+
+<script>
+	var animData = {
+		wrapper: document.getElementById('bodymovin'),
+		animType: 'svg',
+		loop: false,
+		prerender: true,
+		autoplay: false,
+		path: 'https://raw.githubusercontent.com/twhitt14/BodyMovin/master/animations/nik-animation.json'
+	};
+
+	// Here's the plan -
+	// If the animation loads & we're at the top, we'll disable scrolling, play the first segment until the stop frame, then re-enable scrolling.
+	// If we're not at the top on animation load we'll just set the progress of the second segment.
+	// On scroll, the second segment will start playing from the stop frame.
+
+	// Set the frame when the animation should pause.
+	var stopFrame = 71;
+
+	// You don't need to change these.
+	var anim = bodymovin.loadAnimation(animData);
+	var animTotalFrames = 0; // this gets automatically set later
+
+	anim.addEventListener('data_ready', function() {
+		// console.log('data_ready');
+		animTotalFrames = anim.totalFrames;
+		if (window.scrollY == 0) {
+			// console.log("at top of page - locking page scrolling");
+			document.body.classList.add('lock-scrolling');
+			anim.playSegments([0, 71], true);
+
+			// add listener to enable scrolling once animation is done
+		} else {
+			setAnimationProgress();
+		}
+	});
+
+	anim.addEventListener('enterFrame', function(e){
+		if (e.currentTime > stopFrame - 0.1 && document.body.classList.value.indexOf('lock-scrolling') > -1) {
+			// console.log('on last frame');
+			document.body.classList.remove('lock-scrolling');
+			anim.playSegments([0, animTotalFrames], true);
+			setAnimationProgress();
+		}
+	});
+
+	window.addEventListener('scroll', function() {
+		setAnimationProgress();
+	});
+
+	function setAnimationProgress() {
+		var scrollPercent = document.body.scrollTop;
+		scrollPercent = document.body.scrollTop / (document.body.scrollHeight - window.innerHeight);
+		// console.log((100 * scrollPercent) + ' %');
+
+		var frames = anim.totalFrames - stopFrame;
+		anim.goToAndStop(scrollPercent * frames + stopFrame, true);
+	};
+</script>
